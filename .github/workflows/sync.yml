@@ -1,0 +1,29 @@
+name: habitica → notion sync
+
+on:
+  workflow_dispatch:      # allows you to test manually
+  schedule:
+    - cron: '0 * * * *'   # every hour
+
+jobs:
+  update-daily:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: install deps
+        run: npm install node-fetch @notionhq/client dotenv
+
+      - name: run sync
+        env:
+          HAB_USER:       ${{ secrets.HAB_USER }}
+          HAB_KEY:        ${{ secrets.HAB_KEY }}
+          NOTION_TOKEN:   ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: node sync.js
