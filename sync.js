@@ -1,11 +1,15 @@
-// sync.js (CommonJS version)
-const fetch = require("node-fetch");
-const { Client } = require("@notionhq/client");
+// sync.js
 require("dotenv").config();
+const { Client } = require("@notionhq/client");
+
+// Node 18+ has global fetch, so no need for node-fetch
+// const fetch = require("node-fetch");
 
 const {
-  HAB_USER, HAB_KEY,
-  NOTION_TOKEN, NOTION_DATABASE_ID
+  HAB_USER,
+  HAB_KEY,
+  NOTION_TOKEN,
+  NOTION_DATABASE_ID,
 } = process.env;
 
 const notion = new Client({ auth: NOTION_TOKEN });
@@ -27,7 +31,6 @@ async function getHabiticaLevel() {
 
 async function upsertDailyRecord(level) {
   const today = todayDate();
-
   const query = await notion.databases.query({
     database_id: NOTION_DATABASE_ID,
     filter: { property: "Date", date: { equals: today } },

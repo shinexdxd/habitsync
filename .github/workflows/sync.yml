@@ -18,7 +18,7 @@ jobs:
           node-version: '18'
 
       - name: install deps
-        run: npm install node-fetch @notionhq/client dotenv
+        run: npm install @notionhq/client dotenv
 
       - name: run sync
         env:
