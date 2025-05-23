@@ -33,7 +33,7 @@ async function upsertDailyRecord(level) {
   const today = todayDate();
   const query = await notion.databases.query({
     database_id: NOTION_DATABASE_ID,
-    filter: { property: "Date", date: { equals: today } },
+    filter: { property: "🗓 Date", date: { equals: today } },
   });
 
   if (query.results.length) {
@@ -46,13 +46,15 @@ async function upsertDailyRecord(level) {
     await notion.pages.create({
       parent: { database_id: NOTION_DATABASE_ID },
       properties: {
-        Date: { date: { start: today } },
+        "🗓 Date": {
+          date: { start: today }
+        },
         HabiticaLevel: { number: level },
-      },
+        // initialize other props here…
+      }
     });
     console.log("Created new record for", today);
   }
-}
 
 (async () => {
   try {
