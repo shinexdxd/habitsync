@@ -3,7 +3,6 @@ require("dotenv").config();
 const { Client } = require("@notionhq/client");
 
 // Node 18+ has global fetch
-// no need for node-fetch
 
 const {
   HAB_USER,
@@ -31,6 +30,7 @@ async function getHabiticaLevel() {
 
 async function upsertDailyRecord(level) {
   const today = todayDate();
+  const roll  = Math.floor(Math.random() * 20) + 1;  // d20 roll 1–20
 
   // 1) query for a record where 🗓 Date == today
   const query = await notion.databases.query({
@@ -47,19 +47,21 @@ async function upsertDailyRecord(level) {
       page_id: query.results[0].id,
       properties: {
         HabiticaLevel: { number: level },
+        DailyRoll:     { number: roll },
       },
     });
-    console.log("Updated existing record for", today);
+    console.log(`Updated existing record for ${today}, rolled ${roll}`);
   } else {
     // 2b) create a new one
     await notion.pages.create({
       parent: { database_id: NOTION_DATABASE_ID },
       properties: {
-        "🗓 Date": { date: { start: today } },
+        "🗓 Date":     { date: { start: today } },
         HabiticaLevel: { number: level },
+        DailyRoll:     { number: roll },
       },
     });
-    console.log("Created new record for", today);
+    console.log(`Created new record for ${today}, rolled ${roll}`);
   }
 }
 
