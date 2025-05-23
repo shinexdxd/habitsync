@@ -1,9 +1,10 @@
 name: habitica → notion sync
 
 on:
-  workflow_dispatch:      # allows you to test manually
+  workflow_dispatch:
   schedule:
-    - cron: '0 * * * *'   # every hour
+    # runs once daily at 15:00 UTC → 10:00 AM CDT
+    - cron: '0 15 * * *'
 
 jobs:
   update-daily:
