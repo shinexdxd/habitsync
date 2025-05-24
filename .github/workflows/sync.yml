@@ -3,9 +3,8 @@ name: habitica → notion sync
 on:
   workflow_dispatch:
   schedule:
-    # runs once daily at 15:00 UTC → 10:00 AM CDT
-    - cron: '0 15 * * *'
-
+    # runs once daily at 10:00 UTC → 5:00 AM CDT
+    - cron: '0 10 * * *'
 jobs:
   update-daily:
     runs-on: ubuntu-latest
