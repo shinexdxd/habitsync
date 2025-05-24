@@ -31,7 +31,11 @@ async function getHabiticaLevel() {
 async function upsertDailyRecord(level) {
   const today = todayDate();
   const roll  = Math.floor(Math.random() * 20) + 1;  // d20 roll 1–20
-
+  const titleProp = {
+  title: [
+    { text: { content: "@today" } }
+  ]
+};
   // 1) query for a record where 🗓 Date == today
   const query = await notion.databases.query({
     database_id: NOTION_DATABASE_ID,
