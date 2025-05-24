@@ -46,6 +46,7 @@ async function upsertDailyRecord(level) {
     await notion.pages.update({
       page_id: query.results[0].id,
       properties: {
+       "Name": titleProp,
         HabiticaLevel: { number: level },
         DailyRoll:     { number: roll },
       },
@@ -57,6 +58,7 @@ async function upsertDailyRecord(level) {
       parent: { database_id: NOTION_DATABASE_ID },
       properties: {
         "🗓 Date":     { date: { start: today } },
+        "Name": titleProp,
         HabiticaLevel: { number: level },
         DailyRoll:     { number: roll },
       },
